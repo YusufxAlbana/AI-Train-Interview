@@ -15,7 +15,7 @@
 	let messages = $state<Message[]>([
 		{
 			sender: 'ai',
-			text: 'Halo! Selamat datang di sesi wawancara AI. Bisakah Anda menceritakan sedikit tentang diri Anda dan posisi yang ingin Anda lamar?'
+			text: 'Hello! Welcome to your AI interview session. Could you please introduce yourself and tell me a bit about the role you are applying for?'
 		}
 	]);
 
@@ -34,7 +34,7 @@
 
 			if (SpeechRecognition) {
 				recognition = new SpeechRecognition();
-				recognition.lang = 'id-ID';
+				recognition.lang = 'en-US';
 				recognition.continuous = false;
 				recognition.interimResults = true;
 
@@ -58,17 +58,17 @@
 		}
 	});
 
-	// Speak Text-to-Speech
+	// Speak Text-to-Speech (English)
 	function speakText(text: string) {
 		if (!synth) {
-			alert('Browser Anda tidak mendukung Text-to-Speech.');
+			alert('Your browser does not support Text-to-Speech.');
 			return;
 		}
 
 		synth.cancel(); // Stop any ongoing speech
 		const utterance = new SpeechSynthesisUtterance(text);
-		utterance.lang = 'id-ID';
-		utterance.rate = 0.95; // Slightly natural pace
+		utterance.lang = 'en-US';
+		utterance.rate = 0.95; // Natural pace
 
 		utterance.onstart = () => {
 			isSpeaking = true;
@@ -88,7 +88,7 @@
 	// Toggle Microphone Speech-to-Text
 	function toggleListening() {
 		if (!recognition) {
-			alert('Browser Anda tidak mendukung Speech Recognition (Pengenal Suara). Gunakan Chrome atau Edge.');
+			alert('Your browser does not support Speech Recognition. Please use Google Chrome or Microsoft Edge.');
 			return;
 		}
 
@@ -108,7 +108,6 @@
 	// Open Interview Simulation
 	function startSimulation() {
 		isModalOpen = true;
-		// Auto speak the initial AI question after a slight delay
 		setTimeout(() => {
 			speakText(messages[0].text);
 		}, 400);
@@ -131,18 +130,17 @@
 		messages = [...messages, { sender: 'user', text: userText }];
 		userInput = '';
 
-		// Stop listening if active
 		if (isListening && recognition) {
 			recognition.stop();
 			isListening = false;
 		}
 
-		// Simulated AI Follow-up
+		// Simulated AI Follow-up in English
 		setTimeout(() => {
 			const aiReplies = [
-				'Terima kasih atas penjelasannya! Apa tantangan terbesar yang pernah Anda hadapi dalam pekerjaan sebelumnya dan bagaimana Anda mengatasinya?',
-				'Menarik sekali! Menurut Anda, apa kelebihan utama yang membuat Anda cocok untuk posisi ini?',
-				'Bagus sekali. Bisakah Anda memberikan contoh proyek sukses yang pernah Anda selesaikan?'
+				'Thank you for sharing! What has been the biggest challenge in your previous role and how did you overcome it?',
+				'That sounds impressive! What key strengths do you possess that make you a great fit for this position?',
+				'Great answer. Could you describe a successful project you recently worked on and your specific contribution?'
 			];
 			const randomReply = aiReplies[Math.floor(Math.random() * aiReplies.length)];
 
@@ -159,8 +157,8 @@
 </script>
 
 <svelte:head>
-	<title>AI Interview Trainer - Latihan Wawancara Tanpa Grogi</title>
-	<meta name="description" content="Latih kemampuan interview Anda langsung dengan AI canggih tanpa perlu berhadapan dengan orang asli." />
+	<title>AInterview - Master Your Job Interview with AI</title>
+	<meta name="description" content="Practice job interviews directly with advanced AI without the stress of talking to a real interviewer." />
 </svelte:head>
 
 <main class="landing">
@@ -171,20 +169,20 @@
 
 	<section class="hero">
 		<div class="hero-content">
-			<div class="badge">🚀 Versi Beta Tersedia</div>
-			<h1>Kuasai Wawancara Anda<br/><span class="gradient-text">Tanpa Rasa Gugup</span></h1>
+			<div class="badge">🚀 Beta Version Available</div>
+			<h1>Master Your Interview<br/><span class="gradient-text">Without The Stress</span></h1>
 			<p class="subtitle">
-				Latih kemampuan komunikasi dan interview Anda langsung dengan AI. Dapatkan feedback real-time tanpa harus berbicara dengan orang asli. Persiapkan karir Anda dengan percaya diri!
+				Practice your communication and interview skills live with an AI coach. Get real-time feedback without talking to a real person. Ace your next career move with confidence!
 			</p>
 			<div class="cta-group">
 				<button class="btn-primary" onclick={startSimulation}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-					Mulai Simulasi Suara
+					Start Voice Interview
 				</button>
-				<button class="btn-outline" onclick={() => speakText("Halo, ini adalah contoh suara AI menggunakan Web Speech API bawaan browser.")}>
+				<button class="btn-outline" onclick={() => speakText("Hello, this is a sample AI voice using the browser built-in Web Speech API.")}>
 					<span class="play-icon">
 						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-					</span> Tes Suara AI
+					</span> Test AI Voice
 				</button>
 			</div>
 		</div>
@@ -194,22 +192,22 @@
 					<div class="ai-avatar">AI</div>
 					<div class="ai-info">
 						<strong>Interviewer Bot</strong>
-						<span>{isSpeaking ? '🔊 Sedang Berbicara...' : 'Online (Siap Bicara)'}</span>
+						<span>{isSpeaking ? '🔊 Speaking...' : 'Online (Ready)'}</span>
 					</div>
 				</div>
 				<div class="chat-body">
 					<div class="message ai">
-						Ceritakan tentang diri Anda dan pengalaman kerja terakhir Anda.
-						<button class="speak-btn" title="Dengarkan Suara" onclick={() => speakText("Ceritakan tentang diri Anda dan pengalaman kerja terakhir Anda.")}>
+						Tell me about yourself and your latest work experience.
+						<button class="speak-btn" title="Listen Voice" onclick={() => speakText("Tell me about yourself and your latest work experience.")}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
 						</button>
 					</div>
 					<div class="message user">
-						Halo! Nama saya Budi, saya memiliki 3 tahun pengalaman sebagai Software Engineer di...
+						Hi! My name is Alex, I have 3 years of experience as a Software Engineer at...
 					</div>
 					{#if isSpeaking}
 						<div class="message ai typing">
-							<span class="speaking-wave">🔊 AI sedang berbicara...</span>
+							<span class="speaking-wave">🔊 AI is speaking...</span>
 						</div>
 					{/if}
 				</div>
@@ -218,56 +216,56 @@
 	</section>
 
 	<section id="features" class="features">
-		<h2>Mengapa Memilih AInterview?</h2>
+		<h2>Why Choose AInterview?</h2>
 		<div class="feature-grid">
 			<div class="feature-card">
 				<div class="icon-wrapper">
 					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
 				</div>
-				<h3>AI Interaktif & Suara</h3>
-				<p>Berinteraksi dengan asisten AI menggunakan percakapan suara langsung bawaan browser tanpa latency.</p>
+				<h3>Interactive Voice AI</h3>
+				<p>Engage in real-time voice conversations powered by browser-native Speech APIs with zero latency.</p>
 			</div>
 			<div class="feature-card">
 				<div class="icon-wrapper">
 					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
 				</div>
-				<h3>Bebas Tekanan</h3>
-				<p>Lakukan kesalahan sebanyak yang Anda mau tanpa takut dihakimi. Ruang aman untuk belajar.</p>
+				<h3>Zero Pressure</h3>
+				<p>Make mistakes freely without fear of judgment. A safe and supportive space to build confidence.</p>
 			</div>
 			<div class="feature-card">
 				<div class="icon-wrapper">
 					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
 				</div>
-				<h3>Feedback Real-Time</h3>
-				<p>Dapatkan analisis komprehensif mengenai tata bahasa, kelancaran bicara, dan jawaban Anda.</p>
+				<h3>Real-Time Feedback</h3>
+				<p>Get comprehensive insights on your grammar, fluency, tone, and overall response quality.</p>
 			</div>
 		</div>
 	</section>
 
 	<section id="how-it-works" class="how-it-works">
-		<h2>Bagaimana Cara Kerjanya?</h2>
+		<h2>How It Works</h2>
 		<div class="steps-container">
 			<div class="step">
 				<div class="step-number">1</div>
 				<div class="step-content">
-					<h3>Pilih Posisi Pekerjaan</h3>
-					<p>Tentukan posisi yang ingin Anda lamar (misal: Software Engineer, Marketing, dll). AI akan menyesuaikan konteks pertanyaannya.</p>
+					<h3>Select Target Role</h3>
+					<p>Choose the position you are aiming for (e.g. Software Engineer, Marketing Manager). AI tailors question contexts.</p>
 				</div>
 			</div>
 			<div class="step-line"></div>
 			<div class="step">
 				<div class="step-number">2</div>
 				<div class="step-content">
-					<h3>Bicara / Ketik Jawaban</h3>
-					<p>Gunakan mikrofon Anda untuk menjawab secara lisan. AI akan mendengarkan dan mengubah suara Anda menjadi teks secara gratis.</p>
+					<h3>Speak Your Answer</h3>
+					<p>Use your microphone to speak your responses. AI transcribes your voice to text seamlessly in real-time.</p>
 				</div>
 			</div>
 			<div class="step-line"></div>
 			<div class="step">
 				<div class="step-number">3</div>
 				<div class="step-content">
-					<h3>Dapatkan Feedback</h3>
-					<p>Selesai interview, AI akan memberikan skor dan ulasan komprehensif tentang performa dan hal yang perlu ditingkatkan.</p>
+					<h3>Get Instant Feedback</h3>
+					<p>Receive constructive feedback and scoring to polish your answers before your real interview.</p>
 				</div>
 			</div>
 		</div>
@@ -281,14 +279,14 @@
 				<div class="ai-profile">
 					<div class="ai-avatar-large">AI</div>
 					<div>
-						<h3>Simulasi Wawancara AI</h3>
+						<h3>AI Interview Session</h3>
 						<span class="status-badge" class:active={isSpeaking || isListening}>
 							{#if isSpeaking}
-								🔊 AI Sedang Berbicara...
+								🔊 AI is Speaking...
 							{:else if isListening}
-								🎙️ Mendengarkan Suara Anda...
+								🎙️ Listening to your voice...
 							{:else}
-								🟢 Menunggu Jawaban Anda
+								🟢 Waiting for your response
 							{/if}
 						</span>
 					</div>
@@ -302,7 +300,7 @@
 						<div class="chat-bubble" class:ai-bubble={msg.sender === 'ai'} class:user-bubble={msg.sender === 'user'}>
 							<p>{msg.text}</p>
 							{#if msg.sender === 'ai'}
-								<button class="replay-btn" onclick={() => speakText(msg.text)} title="Putar Ulang Suara">
+								<button class="replay-btn" onclick={() => speakText(msg.text)} title="Replay Voice">
 									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
 								</button>
 							{/if}
@@ -314,7 +312,7 @@
 			<div class="modal-input-area">
 				<input
 					type="text"
-					placeholder={isListening ? "Sedang mendengarkan ucapan Anda..." : "Ketik jawaban Anda atau klik ikon mikrofon..."}
+					placeholder={isListening ? "Listening to your voice..." : "Type your answer or click mic to speak..."}
 					bind:value={userInput}
 					onkeydown={handleKeydown}
 				/>
@@ -322,12 +320,12 @@
 					class="mic-btn"
 					class:listening={isListening}
 					onclick={toggleListening}
-					title={isListening ? "Hentikan Rekaman" : "Mulai Bicara (Mikrofon)"}
+					title={isListening ? "Stop Recording" : "Start Speaking (Mic)"}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
 				</button>
 				<button class="send-btn" onclick={sendMessage} disabled={!userInput.trim()}>
-					Kirim
+					Send
 				</button>
 			</div>
 		</div>
