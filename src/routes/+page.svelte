@@ -81,6 +81,35 @@
 			</div>
 		</div>
 	</section>
+
+	<section id="how-it-works" class="how-it-works">
+		<h2>Bagaimana Cara Kerjanya?</h2>
+		<div class="steps-container">
+			<div class="step">
+				<div class="step-number">1</div>
+				<div class="step-content">
+					<h3>Pilih Posisi Pekerjaan</h3>
+					<p>Tentukan posisi yang ingin Anda lamar (misal: Software Engineer, Marketing, dll). AI akan menyesuaikan konteks pertanyaannya.</p>
+				</div>
+			</div>
+			<div class="step-line"></div>
+			<div class="step">
+				<div class="step-number">2</div>
+				<div class="step-content">
+					<h3>Mulai Simulasi Chat/Suara</h3>
+					<p>Jawab pertanyaan layaknya wawancara sungguhan. AI akan merespon dan menanyakan pertanyaan lanjutan berdasarkan jawaban Anda.</p>
+				</div>
+			</div>
+			<div class="step-line"></div>
+			<div class="step">
+				<div class="step-number">3</div>
+				<div class="step-content">
+					<h3>Dapatkan Feedback</h3>
+					<p>Selesai interview, AI akan memberikan skor dan ulasan komprehensif tentang performa dan hal yang perlu ditingkatkan.</p>
+				</div>
+			</div>
+		</div>
+	</section>
 </main>
 
 <style>
@@ -251,14 +280,15 @@
 
 	.chat-preview {
 		width: 100%;
-		max-width: 450px;
+		max-width: 460px;
 		overflow: hidden;
-		transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
-		transition: transform 0.5s ease;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 	}
 
 	.chat-preview:hover {
-		transform: perspective(1000px) rotateY(-5deg) rotateX(2deg) translateY(-10px);
+		transform: translateY(-6px);
+		box-shadow: 0 30px 60px -15px rgba(79, 70, 229, 0.3);
+		border-color: rgba(79, 70, 229, 0.4);
 	}
 
 	.chat-header {
@@ -362,7 +392,10 @@
 		border-radius: 20px;
 		padding: 2.5rem 2rem;
 		text-align: left;
-		transition: all 0.3s;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 	}
 
 	.feature-card:hover {
@@ -428,6 +461,91 @@
 		.cta-group {
 			flex-direction: column;
 			width: 100%;
+		}
+	}
+
+	.how-it-works {
+		width: 100%;
+		max-width: 1000px;
+		margin-bottom: 8rem;
+		text-align: center;
+		z-index: 10;
+	}
+
+	.how-it-works h2 {
+		font-size: 2.5rem;
+		margin-bottom: 4rem;
+	}
+
+	.steps-container {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		position: relative;
+	}
+
+	.step {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+		background: rgba(30, 41, 59, 0.4);
+		border: 1px solid var(--surface-border);
+		border-radius: 20px;
+		padding: 2rem;
+		text-align: left;
+		transition: transform 0.3s, box-shadow 0.3s;
+	}
+
+	.step:hover {
+		transform: scale(1.02);
+		box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.3);
+		border-color: rgba(79, 70, 229, 0.4);
+	}
+
+	.step-number {
+		width: 60px;
+		height: 60px;
+		flex-shrink: 0;
+		border-radius: 50%;
+		background: linear-gradient(135deg, var(--primary), var(--secondary));
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: white;
+		box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+	}
+
+	.step-content h3 {
+		font-size: 1.25rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.step-content p {
+		color: var(--text-secondary);
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	@media (min-width: 768px) {
+		.steps-container {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: flex-start;
+		}
+
+		.step {
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			padding: 2.5rem 1.5rem;
+			flex: 1;
+			height: 100%;
+		}
+
+		.step-line {
+			display: none; /* Hide for now, can implement dashed line later */
 		}
 	}
 </style>
