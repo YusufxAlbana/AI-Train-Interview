@@ -5,6 +5,7 @@
 	let isModalOpen = $state(false);
 	let isSpeaking = $state(false);
 	let isListening = $state(false);
+	let isLoading = $state(false);
 	let userInput = $state('');
 
 	interface Message {
@@ -122,31 +123,45 @@
 		}
 	}
 
-	// Handle Sending Answer
-	function sendMessage() {
-		if (!userInput.trim()) return;
+	// Handle Sending Answer to 9Router API
+	async function sendMessage() {
+		if (!userInput.trim() || isLoading) return;
 
 		const userText = userInput.trim();
-		messages = [...messages, { sender: 'user', text: userText }];
+		const updatedMessages = [...messages, { sender: 'user' as const, text: userText }];
+		messages = updatedMessages;
 		userInput = '';
+		isLoading = true;
 
 		if (isListening && recognition) {
 			recognition.stop();
 			isListening = false;
 		}
 
-		// Simulated AI Follow-up in English
-		setTimeout(() => {
-			const aiReplies = [
-				'Thank you for sharing! What has been the biggest challenge in your previous role and how did you overcome it?',
-				'That sounds impressive! What key strengths do you possess that make you a great fit for this position?',
-				'Great answer. Could you describe a successful project you recently worked on and your specific contribution?'
-			];
-			const randomReply = aiReplies[Math.floor(Math.random() * aiReplies.length)];
+		try {
+			const res = await fetch('/api/interview', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ messages: updatedMessages })
+			});
 
-			messages = [...messages, { sender: 'ai', text: randomReply }];
-			speakText(randomReply);
-		}, 1000);
+			const data = await res.json();
+			if (data.reply) {
+				messages = [...messages, { sender: 'ai' as const, text: data.reply }];
+				speakText(data.reply);
+			} else {
+				const fallback = "I see. Could you elaborate on your experience in that area?";
+				messages = [...messages, { sender: 'ai' as const, text: fallback }];
+				speakText(fallback);
+			}
+		} catch (err) {
+			console.error('Interview API error:', err);
+			const fallback = "Thank you. Let's move to the next question. What are your greatest strengths?";
+			messages = [...messages, { sender: 'ai' as const, text: fallback }];
+			speakText(fallback);
+		} finally {
+			isLoading = false;
+		}
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
